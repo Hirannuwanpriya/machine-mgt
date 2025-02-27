@@ -55,4 +55,4 @@ class Machine extends Model
         return Carbon::parse($value)->format('d/m/Y H:i:s');
     }
 
-}4
+}
