@@ -23,11 +23,8 @@ class MachinesController extends Controller
     public function index(Request $request): JsonResponse
     {
 
-        return rescue(function() {
-            $machines = $this->machineRepository->all($this->machineRepository->all(
-                paginate: true,
-                length: 2
-            ));
+        return rescue(function() use ($request) {
+            $machines = $this->machineRepository->all(paginate: true, length: $request->get('length', 10));
 
             return response()->json([
                 'status' => true,
@@ -79,10 +76,10 @@ class MachinesController extends Controller
         return rescue(function() use ($request) {
            $validated = $request->validate([
                 'name' => 'required|string|max:255',
-                'purchase_date' => 'required|string|max:255',
-                'price' => 'required|string|max:255',
-                'category' => 'required|string|max:255',
-                'brand' => 'required|string|max:255',
+                'purchase_date' => 'required',
+                'price' => 'required',
+                'category' => 'required|int',
+                'brand' => 'required|int',
             ]);
 
             $machine = $this->machineRepository->create($validated);

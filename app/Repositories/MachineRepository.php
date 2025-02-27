@@ -24,7 +24,7 @@ class MachineRepository implements MachineRepositoryInterface
             ->machine
             ->newQuery();
 
-        return $paginate ? $base_query->paginate() : $base_query->get();
+        return $paginate ? $base_query->paginate($length) : $base_query->get();
     }
 
     public function find(int $id): ?Machine

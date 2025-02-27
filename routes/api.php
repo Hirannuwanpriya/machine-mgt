@@ -22,7 +22,7 @@ Route::prefix('machines')->controller(MachinesController::class)
         Route::post('/', 'store')->name('machine.create');
         Route::put('{id}', 'update')->name('machine.update');
         Route::delete('{id}', 'destroy')->name('machine.delete');
-        Route::delete('{id}', 'addHours')->name('machine.add_hours');
+        Route::put('add-hours/{id}', 'addHours')->name('machine.add_hours');
     })->middleware([
         'auth:sanctum'
     ]);
