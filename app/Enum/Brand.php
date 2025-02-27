@@ -4,6 +4,7 @@ namespace App\Enum;
 
 enum Brand: int
 {
+    case NONE = 0;
     case Brand_1 = 1;
     case Brand_2 = 2;
     case Brand_3 = 3;

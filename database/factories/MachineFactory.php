@@ -30,7 +30,8 @@ class MachineFactory extends Factory
             'description' => $this->faker->sentence,
             'purchase_date' => $this->faker->date,
             'price' => $this->faker->randomFloat(2, 100, 10000),
-            'brand' => $this->faker->randomElement([1, 2, 3]),
+            'category' => $this->faker->randomElement([1, 2, 3, 4]),
+            'brand' => $this->faker->randomElement([1, 2, 3, 4]),
             'status' => $this->faker->randomElement([0, 1]),
             'sort_order' => $this->faker->numberBetween(1, 100),
         ];
