@@ -16,7 +16,7 @@
                     <div class="mt-2 sm:col-span-2 sm:mt-0">
                       <input v-model="machine.name" type="text" name="name" id="name" autocomplete="name"
                              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:max-w-xs sm:text-sm/6"/>
-                      <p class="mt-2 text-sm text-red-600" v-if="isInError('machine.name')">Name Req</p>
+                      <p class="mt-2 text-sm text-red-600" v-if="isInError('machine.name')">Name Required</p>
                     </div>
                   </div>
 
@@ -36,6 +36,7 @@
                             class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
                             aria-hidden="true"/>
                       </div>
+                      <p class="mt-2 text-sm text-red-600" v-if="isInError('machine.model')">Model Required</p>
                     </div>
                   </div>
 
@@ -55,6 +56,7 @@
                             class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-500 sm:size-4"
                             aria-hidden="true"/>
                       </div>
+                      <p class="mt-2 text-sm text-red-600" v-if="isInError('machine.brand')">Brand Required</p>
                     </div>
                   </div>
 
@@ -63,6 +65,7 @@
                     <div class="mt-2 sm:col-span-2 sm:mt-0">
                       <input v-model="machine.date" type="date" name="date" id="date" autocomplete="date"
                              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:max-w-xs sm:text-sm/6"/>
+                      <p class="mt-2 text-sm text-red-600" v-if="isInError('machine.date')">Date Required</p>
                     </div>
                   </div>
 
@@ -71,6 +74,7 @@
                     <div class="mt-2 sm:col-span-2 sm:mt-0">
                       <input v-model="machine.price" id="price" name="price" type="text" autocomplete="price"
                              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:max-w-md sm:text-sm/6"/>
+                      <p class="mt-2 text-sm text-red-600" v-if="isInError('machine.price')">Price Required</p>
                     </div>
                   </div>
 
@@ -125,10 +129,10 @@ export default {
     return {
       machine: {
         name: {required},
-        // model: '',
-        // brand: '',
-        // date: '',
-        // price: ''
+        model: {required},
+        brand: {required},
+        date: {required},
+        price: {required}
       }
     }
   },
@@ -137,7 +141,7 @@ export default {
   },
   methods: {
     isInError(machine) {
-      return this.v$.$errors && this.v$.$errors.find(element => element.machine === machine)
+      return this.v$.$errors && this.v$.$errors.find(element => element.$propertyPath === machine)
     },
     toggleForm() {
       this.formVisible = !this.formVisible;
