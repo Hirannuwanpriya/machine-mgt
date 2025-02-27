@@ -10,8 +10,9 @@
           <div class="sm:flex sm:items-center">
             <div class="sm:flex-auto"></div>
             <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-              <RouterLink to="/machines/create" class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                Create Machine</RouterLink>
+              <button @click="open = true"
+                  class="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                Create Machine</button>
             </div>
           </div>
         <div class="mt-8 flow-root">
@@ -38,7 +39,7 @@
                   <td class="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">{{ machine.purchase_date }}</td>
                   <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">{{ machine.category }}</td>
                   <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">{{ machine.brand }}</td>
-                  <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">{{ machine.resetCount }}</td>
+                  <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">{{ machine.hours }}</td>
                   <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{{ machine.price }}</td>
                   <td class="relative whitespace-nowrap py-2 pl-3 pr-4 text-sm font-medium sm:pr-0 space-x-4">
                     <RouterLink to="/machines/reset/1" class="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-sky-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">
@@ -60,11 +61,17 @@
       </div>
     </div>
   </main>
+
+  <template v-if="open">
+    <MachineForm></MachineForm>
+  </template>
+
 </template>
 
 <script>
 import { useMachineStore } from '../stores/machineStore';
 import {nextTick, onMounted} from 'vue';
+import MachineForm from "../components/MachineForm.vue";
 
 export default {
   name: 'Machine',
@@ -79,6 +86,14 @@ export default {
       machines : machineStore,
     }
   },
+  components: {
+    MachineForm
+  },
+  data() {
+    return {
+      open: false,
+    }
+  }
 }
 </script>
 
