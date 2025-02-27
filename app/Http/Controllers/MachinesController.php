@@ -107,13 +107,13 @@ class MachinesController extends Controller
         return rescue(function() use ($request, $id) {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
-                'purchase_date' => 'required|string|max:255',
-                'price' => 'required|string|max:255',
-                'category' => 'required|string|max:255',
-                'brand' => 'required|string|max:255',
+                'purchase_date' => 'required',
+                'price' => 'required',
+                'category' => 'required|int',
+                'brand' => 'required|int',
             ]);
 
-            $machine = $this->machineRepository->update($id, $validated);
+            $machine = $this->machineRepository->update($validated, $id);
 
             //return updated machine as json format
             return response()->json([
