@@ -157,4 +157,28 @@ class MachinesController extends Controller
             ], 402);
         });
     }
+
+    public function addHours($id, $data): JsonResponse
+    {
+
+        return rescue(function () use($id, $data) {
+
+            $machine = $this->machineRepository->addHours($id, $data);
+
+            //return updated machine as json format
+            return response()->json([
+                'status' => true,
+                'payload' => $machine,
+                'meta' => [
+                    '_timestamp' => Carbon::now()->timestamp,
+                ],
+            ], 200);
+
+        }, function ($e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'stack' => $e->getTraceAsString(),
+            ], 402);
+        });
+    }
 }
