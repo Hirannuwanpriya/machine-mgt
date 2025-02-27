@@ -21,7 +21,7 @@ router.beforeEach((to, from, next) => {
     if (to.name !== 'login' && !authStore.isAuthenticated) {
         next({ name: 'login' });
     } else if(to.name === 'login' && authStore.isAuthenticated) {
-        next({ name: 'machines' });
+        next({ name: 'machines.index' });
     } else {
         return next();
     }

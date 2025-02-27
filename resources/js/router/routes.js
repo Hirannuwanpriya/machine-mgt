@@ -1,4 +1,5 @@
 import Login from '../pages/Login.vue';
+import Layout from '../components/Layout.vue';
 import Machine from '../pages/Machine.vue';
 
 const routes = [
@@ -9,8 +10,13 @@ const routes = [
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
-        component: Machine,
+        component: Layout,
         children: [
+            {
+                path: '/',
+                name: 'machines.index',
+                component: Machine
+            },
             {
                 path: 'create',
                 name: 'machine.create',
@@ -23,6 +29,11 @@ const routes = [
             }
         ]
     },
+    {
+        path: '/:pathMatch(.*)*',
+        name: 'NotFound',
+        component: () => import('../pages/NotFound.vue')
+    }
 ];
 
 export default routes;
