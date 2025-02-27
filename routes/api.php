@@ -12,7 +12,7 @@ Route::get('/user', function (Request $request) {
 })
 ->middleware('auth:sanctum');
 
-Route::get('/user/logout', [AuthController::class, 'logout'])
+Route::post('/logout', [AuthController::class, 'logout'])
     ->name('auth.logout');
 
 Route::prefix('machines')->controller(MachinesController::class)

@@ -6,11 +6,7 @@ Route::get('/', function () {
     return view('app');
 });
 
-
-Route::get('/login', function () {
-    return view('welcome');
-})->name('login');
-
-Route::get('/logout', function () {
-    return view('welcome');
-})->name('logout');
+//redirect all routes to the app to handle routing
+Route::get('/{any}', function () {
+    return view('app');
+})->where('any', '.*');
