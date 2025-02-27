@@ -19,6 +19,7 @@ return new class extends Migration
             $table->decimal('price', 8, 2)->default(0);
             $table->integer('category')->default(0);
             $table->integer('brand')->default(0);
+            $table->integer('hours')->default(0);
             $table->boolean('status')->default(0);
             $table->integer('sort_order')->default(0);
             $table->timestamps();
