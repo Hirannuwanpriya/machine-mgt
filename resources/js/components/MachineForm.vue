@@ -16,6 +16,7 @@
                     <div class="mt-2 sm:col-span-2 sm:mt-0">
                       <input v-model="machine.name" type="text" name="name" id="name" autocomplete="name"
                              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:max-w-xs sm:text-sm/6"/>
+                      <p class="mt-2 text-sm text-red-600" v-if="isInError('machine.name')">Name Req</p>
                     </div>
                   </div>
 
@@ -95,9 +96,16 @@
 
 <script>
 import {ChevronDownIcon} from '@heroicons/vue/16/solid'
+import {useVuelidate} from "@vuelidate/core";
+import { required } from '@vuelidate/validators';
 
 export default {
   name: 'MachineForm',
+  setup() {
+    return {
+      v$: useVuelidate()
+    }
+  },
   components: {
     ChevronDownIcon
   },
@@ -113,17 +121,40 @@ export default {
       }
     }
   },
+  validations () {
+    return {
+      machine: {
+        name: {required},
+        // model: '',
+        // brand: '',
+        // date: '',
+        // price: ''
+      }
+    }
+  },
   mounted() {
     this.formVisible = !this.formVisible;
   },
   methods: {
+    isInError(machine) {
+      return this.v$.$errors && this.v$.$errors.find(element => element.machine === machine)
+    },
     toggleForm() {
       this.formVisible = !this.formVisible;
+      this.$parent.toggleMachineForm();
     },
     saveForm() {
-      // Handle form submission logic here
-      console.log('Form submitted', this.machine);
-      this.toggleForm();
+      this.v$.$validate().then((valid) => {
+
+        if (!valid) {
+          return;
+        }
+
+
+        // Handle form submission logic
+        console.log('Form submitted', this.machine);
+        this.toggleForm();
+      });
     }
   }
 }

@@ -63,7 +63,7 @@
   </main>
 
   <template v-if="open">
-    <MachineForm></MachineForm>
+    <MachineForm @callParentMethod="toggleMachineForm"></MachineForm>
   </template>
 
 </template>
@@ -92,6 +92,14 @@ export default {
   data() {
     return {
       open: false,
+    }
+  },
+  mounted() {
+
+  },
+  methods: {
+    toggleMachineForm() {
+      this.open = !this.open;
     }
   }
 }
