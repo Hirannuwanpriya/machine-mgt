@@ -7,6 +7,8 @@ use App\Http\Controllers\AuthController;
 
 Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
 
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })

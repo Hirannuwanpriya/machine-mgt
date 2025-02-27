@@ -16,10 +16,14 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
     const authStore = useAuthStore();
+
+    console.log(authStore.isAuthenticated);
     if (to.name !== 'login' && !authStore.isAuthenticated) {
         next({ name: 'login' });
+    } else if(to.name === 'login' && authStore.isAuthenticated) {
+        next({ name: 'machines' });
     } else {
-        next();
+        return next();
     }
 });
 
