@@ -6,6 +6,8 @@ use App\Http\Controllers\AuthController;
 
 Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
 
+Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+
 
 
 Route::get('/user', function (Request $request) {
