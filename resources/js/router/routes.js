@@ -2,9 +2,9 @@ import Login from '../pages/Login.vue';
 import Machine from '../pages/Machine.vue';
 
 const routes = [
-    { path: '/',name: 'home', component: Login },
+    { path: '/login',name: 'login', component: Login },
     {
-        path: '/machines',
+        path: '/',
         name: 'machines',
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
