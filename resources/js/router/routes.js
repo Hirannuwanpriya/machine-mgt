@@ -1,6 +1,7 @@
 import Login from '../pages/Login.vue';
 import Layout from '../components/Layout.vue';
 import Machine from '../pages/Machine.vue';
+import MachineForm from "../components/MachineForm.vue";
 // import MachineForm from "../components/MachineForm.vue";
 
 const routes = [
@@ -23,11 +24,11 @@ const routes = [
             //     name: 'machine.create',
             //     component: MachineForm
             // },
-            // {
-            //     path: ':machineId/edit/:tab',
-            //     name: 'machine.edit',
-            //     component: ''
-            // }
+            {
+                path: ':machineId/edit/',
+                name: 'machine.edit',
+                component: MachineForm
+            }
         ]
     },
     {

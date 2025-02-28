@@ -5,7 +5,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import App from './App.vue';
 import routes from './router/routes';
 import { useAuthStore } from './auth';
-import Notifications from '@kyvg/vue3-notification'
+import Notifications from '@kyvg/vue3-notification';
 
 
 const app = createApp(App);
@@ -30,6 +30,6 @@ router.beforeEach((to, from, next) => {
 
 app.use(pinia);
 app.use(router);
-app.use(Notifications)
+app.use(Notifications);
 
 app.mount('#app');

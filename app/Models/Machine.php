@@ -29,30 +29,4 @@ class Machine extends Model
         'category' => Category::class,
         'brand' => Brand::class
     ];
-
-    public function getPurchaseDateAttribute($value)
-    {
-        return Carbon::parse($value)->format('d/m/Y');
-    }
-
-    public function getPriceAttribute($value)
-    {
-        return '$ ' .number_format($value, 2);
-    }
-
-    public function setPriceAttribute($value)
-    {
-        $this->attributes['price'] = number_format($value, 2, '.', '');
-    }
-
-    public function getCreatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->format('d/m/Y H:i:s');
-    }
-
-    public function getUpdatedAtAttribute($value)
-    {
-        return Carbon::parse($value)->format('d/m/Y H:i:s');
-    }
-
 }

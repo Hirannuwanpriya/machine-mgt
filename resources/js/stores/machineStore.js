@@ -19,6 +19,19 @@ export const useMachineStore = defineStore('machine', {
                     });
             });
         },
+        //fetch machine by id
+        fetchMachine(id) {
+            return new Promise((resolve, reject) => {
+                axios.get(`/api/v1/machines/${id}`)
+                    .then(response => {
+                        resolve(response);
+                    })
+                    .catch(error => {
+                        console.error('Error fetching machine:', error);
+                        reject(error);
+                    });
+            });
+        },
         //method for creating a new machine
         createMachine(data) {
             return new Promise((resolve, reject) => {
@@ -30,6 +43,22 @@ export const useMachineStore = defineStore('machine', {
                     })
                     .catch(error => {
                         console.error('Error creating machine:', error);
+                        reject(error);
+                    });
+            });
+        },
+        //method for updating a machine
+        updateMachine(id, data) {
+            return new Promise((resolve, reject) => {
+                axios.put(`/api/v1/machines/${id}`, data)
+                    .then(response => {
+                        //update machines store with the updated machine
+                        const index = this.machines.findIndex(machine => machine.id === id);
+                        this.machines[index] = response.data.payload;
+                        resolve(response);
+                    })
+                    .catch(error => {
+                        console.error('Error updating machine:', error);
                         reject(error);
                     });
             });

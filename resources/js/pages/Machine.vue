@@ -45,7 +45,9 @@
                     <RouterLink to="/machines/reset/1" class="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-sky-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">
                       Reset<span class="sr-only">, {{ machine.id }}</span>
                     </RouterLink>
-                    <RouterLink to="/machines/edit/1" class="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">
+                    <RouterLink
+                        :to="{ name : 'machine.edit' , params: { machineId : machine.id } }"
+                        class="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">
                       Edit<span class="sr-only">, {{ machine.id }}</span>
                     </RouterLink>
                     <RouterLink to="/machines" class="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-red-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">
@@ -72,6 +74,7 @@
 import { useMachineStore } from '../stores/machineStore';
 import {nextTick, onMounted} from 'vue';
 import MachineForm from "../components/MachineForm.vue";
+import DeleteModal from "../components/DeleteModal.vue";
 
 export default {
   name: 'Machine',
@@ -87,7 +90,11 @@ export default {
     }
   },
   components: {
+    DeleteModal,
     MachineForm
+  },
+  computed: {
+
   },
   data() {
     return {
