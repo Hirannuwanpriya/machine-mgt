@@ -50,7 +50,9 @@
                         class="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">
                       Edit<span class="sr-only">, {{ machine.id }}</span>
                     </RouterLink>
-                    <RouterLink to="/machines" class="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-red-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">
+                    <RouterLink
+                        :to="{ name : 'machine.delete' , params: { machineId : machine.id } }"
+                        class="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-red-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">
                       Delete<span class="sr-only">, {{ machine.id }}</span>
                     </RouterLink>
                   </td>

@@ -63,5 +63,25 @@ export const useMachineStore = defineStore('machine', {
                     });
             });
         },
+        //method for deleting a machine
+        deleteMachine(id) {
+            return new Promise((resolve, reject) => {
+                axios.delete(`/api/v1/machines/${id}`)
+                    .then(response => {
+                        //remove the machine from the machines store
+                        const index = this.machines.findIndex(machine => machine.id === id);
+                        if (index !== -1) {
+                            //remove the machine from the machines store
+                            this.machines.splice(index, 1);
+                        }
+
+                        resolve(response);
+                    })
+                    .catch(error => {
+                        console.error('Error deleting machine:', error);
+                        reject(error);
+                    });
+            });
+        },
     },
 });

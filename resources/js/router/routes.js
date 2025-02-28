@@ -2,6 +2,7 @@ import Login from '../pages/Login.vue';
 import Layout from '../components/Layout.vue';
 import Machine from '../pages/Machine.vue';
 import MachineForm from "../components/MachineForm.vue";
+import DeleteModal from "../components/DeleteModal.vue";
 // import MachineForm from "../components/MachineForm.vue";
 
 const routes = [
@@ -28,6 +29,11 @@ const routes = [
                 path: ':machineId/edit/',
                 name: 'machine.edit',
                 component: MachineForm
+            },
+            {
+                path: ':machineId/delete/',
+                name: 'machine.delete',
+                component: DeleteModal
             }
         ]
     },
