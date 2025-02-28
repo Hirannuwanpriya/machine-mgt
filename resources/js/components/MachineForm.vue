@@ -21,10 +21,10 @@
                   </div>
 
                   <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-                    <label for="model" class="block text-sm/6 font-medium text-gray-900 sm:pt-1.5">Model</label>
+                    <label for="category" class="block text-sm/6 font-medium text-gray-900 sm:pt-1.5">Model</label>
                     <div class="mt-2 sm:col-span-2 sm:mt-0">
                       <div class="grid grid-cols-1 sm:max-w-xs">
-                        <select v-model="machine.model" id="model" name="model" autocomplete="model-name"
+                        <select v-model="machine.category" id="category" name="category" autocomplete="model-name"
                                 class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pl-3 pr-8 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                           <option value="0">Select Model</option>
                           <option value="1">Model 01</option>
@@ -61,9 +61,9 @@
                   </div>
 
                   <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
-                    <label for="date" class="block text-sm/6 font-medium text-gray-900 sm:pt-1.5">Date</label>
+                    <label for="purchase_date" class="block text-sm/6 font-medium text-gray-900 sm:pt-1.5">Date</label>
                     <div class="mt-2 sm:col-span-2 sm:mt-0">
-                      <input v-model="machine.date" type="date" name="date" id="date" autocomplete="date"
+                      <input v-model="machine.purchase_date" type="date" name="purchase_date" id="purchase_date" autocomplete="purchase-date"
                              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:max-w-xs sm:text-sm/6"/>
                       <p class="mt-2 text-sm text-red-600" v-if="isInError('machine.date')">Date Required</p>
                     </div>
@@ -117,11 +117,13 @@ export default {
   data() {
     return {
       formVisible: false,
+      isEditing: false,
+      machineId: null,
       machine: {
         name: '',
-        model: '',
+        category: '',
         brand: '',
-        date: '',
+        purchase_date: '',
         price: ''
       }
     }
@@ -130,15 +132,36 @@ export default {
     return {
       machine: {
         name: {required},
-        model: {required},
+        category: {required},
         brand: {required},
-        date: {required},
+        purchase_date: {required},
         price: {required}
       }
     }
   },
   mounted() {
     this.formVisible = !this.formVisible;
+
+    this.$nextTick(() => {
+      //get route params
+      this.parentPath = this.getParentUrl(this.$route.matched, 'machine.edit', {machineId: this.$route.params.machineId});
+      //check router is edit or create
+      if(this.parentPath.name === 'machine.edit') {
+        this.isEditing = true;
+        this.machineId = this.$route.params.machineId;
+
+        //fetch machine data
+        const machineStore = useMachineStore();
+        machineStore.fetchMachine(this.machineId)
+            .then((response) => {
+              this.machine = response.data.payload;
+              this.machine.purchase_date = new Date(this.machine.purchase_date).toISOString().split('T')[0];
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+      }
+    });
   },
   methods: {
     isInError(machine) {
@@ -157,22 +180,44 @@ export default {
         //set api data
         let formData = {
           name: this.machine.name,
-          category: this.machine.model,
+          category: this.machine.category,
           brand: this.machine.brand,
-          purchase_date: this.machine.date,
+          purchase_date: this.machine.purchase_date,
           price: this.machine.price
         };
         //call api to save machine
         const machineStore = useMachineStore();
-        machineStore.createMachine(formData)
-            .then((response) => {
-              this.$notify({type: "success", text: "Machine Created"});
-              this.toggleForm();
-            })
-            .catch((error) => {
-              console.error(error);
-            });
+
+        if(this.isEditing && this.machineId) {
+          machineStore.updateMachine(this.machineId, formData)
+              .then((response) => {
+                this.$notify({type: "success", text: "Machine Updated"});
+                this.toggleForm();
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+
+        } else {
+          machineStore.createMachine(formData)
+              .then((response) => {
+                this.$notify({type: "success", text: "Machine Created"});
+                this.toggleForm();
+              })
+              .catch((error) => {
+                console.error(error);
+              });
+        }
       });
+    },
+    getParentUrl(route, name, id) {
+      let routeHistory = route.slice(0, -1);
+      if (Array.isArray(routeHistory)) {
+        if (routeHistory[0].name === name + '.show') {
+          return { name: `${name}.show`, params: id };
+        }
+      }
+      return { name: name };
     }
   }
 }
