@@ -36,7 +36,7 @@
                 <tbody class="divide-y divide-gray-200 bg-white">
                 <tr v-for="machine in machines.machines" :key="machine.id">
                   <td class="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">{{ machine.name }}</td>
-                  <td class="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">{{ machine.purchase_date }}</td>
+                  <td class="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">{{ useDateFormat(machine.purchase_date, 'YYYY-MM-DD') }}</td>
                   <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">{{ machine.category }}</td>
                   <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">{{ machine.brand }}</td>
                   <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">{{ machine.hours }}</td>
@@ -75,6 +75,7 @@ import { useMachineStore } from '../stores/machineStore';
 import {nextTick, onMounted} from 'vue';
 import MachineForm from "../components/MachineForm.vue";
 import DeleteModal from "../components/DeleteModal.vue";
+import { useDateFormat } from '@vueuse/core';
 
 export default {
   name: 'Machine',
@@ -87,6 +88,7 @@ export default {
 
     return {
       machines : machineStore,
+      useDateFormat
     }
   },
   components: {
