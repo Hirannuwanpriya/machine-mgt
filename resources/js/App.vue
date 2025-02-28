@@ -1,6 +1,7 @@
 <template>
   <div>
     <RouterView></RouterView>
+    <notifications position="bottom right"/>
   </div>
 </template>
 
