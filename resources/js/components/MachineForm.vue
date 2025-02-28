@@ -101,7 +101,8 @@
 <script>
 import {ChevronDownIcon} from '@heroicons/vue/16/solid'
 import {useVuelidate} from "@vuelidate/core";
-import { required } from '@vuelidate/validators';
+import {required} from '@vuelidate/validators';
+import {useMachineStore} from "../stores/machineStore.js";
 
 export default {
   name: 'MachineForm',
@@ -125,7 +126,7 @@ export default {
       }
     }
   },
-  validations () {
+  validations() {
     return {
       machine: {
         name: {required},
@@ -153,11 +154,24 @@ export default {
         if (!valid) {
           return;
         }
-
-
-        // Handle form submission logic
-        console.log('Form submitted', this.machine);
-        this.toggleForm();
+        //set api data
+        let formData = {
+          name: this.machine.name,
+          category: this.machine.model,
+          brand: this.machine.brand,
+          purchase_date: this.machine.date,
+          price: this.machine.price
+        };
+        //call api to save machine
+        const machineStore = useMachineStore();
+        machineStore.createMachine(formData)
+            .then((response) => {
+              this.$notify({type: "success", text: "Machine Created"});
+              this.toggleForm();
+            })
+            .catch((error) => {
+              console.error(error);
+            });
       });
     }
   }
