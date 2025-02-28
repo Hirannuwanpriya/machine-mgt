@@ -169,7 +169,8 @@ export default {
     },
     toggleForm() {
       this.formVisible = !this.formVisible;
-      this.$parent.toggleMachineForm();
+
+      this.$router.push({name: 'machines.index'});
     },
     saveForm() {
       this.v$.$validate().then((valid) => {

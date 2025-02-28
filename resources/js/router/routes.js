@@ -5,7 +5,7 @@ import MachineForm from "../components/MachineForm.vue";
 // import MachineForm from "../components/MachineForm.vue";
 
 const routes = [
-    { path: '/login',name: 'login', component: Login },
+    {path: '/login', name: 'login', component: Login},
     {
         path: '/',
         name: 'machines',
@@ -17,7 +17,7 @@ const routes = [
             {
                 path: '/',
                 name: 'machines.index',
-                component: Machine
+                component: Machine,
             },
             // {
             //     path: 'machine/create',
