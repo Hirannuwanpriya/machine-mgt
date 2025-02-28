@@ -3,7 +3,8 @@ import Layout from '../components/Layout.vue';
 import Machine from '../pages/Machine.vue';
 import MachineForm from "../components/MachineForm.vue";
 import DeleteModal from "../components/DeleteModal.vue";
-// import MachineForm from "../components/MachineForm.vue";
+import ResetTimer from "../components/ResetTimer.vue";
+
 
 const routes = [
     {path: '/login', name: 'login', component: Login},
@@ -34,6 +35,11 @@ const routes = [
                 path: ':machineId/delete/',
                 name: 'machine.delete',
                 component: DeleteModal
+            },
+            {
+                path: ':machineId/reset-timer/',
+                name: 'machine.reset_timer',
+                component: ResetTimer
             }
         ]
     },

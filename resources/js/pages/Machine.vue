@@ -36,13 +36,15 @@
                 <tbody class="divide-y divide-gray-200 bg-white">
                 <tr v-for="machine in machines.machines" :key="machine.id">
                   <td class="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">{{ machine.name }}</td>
-                  <td class="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">{{ useDateFormat(machine.purchase_date, 'YYYY-MM-DD') }}</td>
+                  <td class="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">{{ useDateFormat(machine.purchase_date, 'DD/MM/YYYY') }}</td>
                   <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">{{ machine.category }}</td>
                   <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">{{ machine.brand }}</td>
                   <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">{{ machine.hours }}</td>
                   <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{{ machine.price }}</td>
                   <td class="relative whitespace-nowrap py-2 pl-3 pr-4 text-sm font-medium sm:pr-0 space-x-4">
-                    <RouterLink to="/machines/reset/1" class="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-sky-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">
+                    <RouterLink
+                        :to="{ name : 'machine.reset_timer' , params: { machineId : machine.id } }"
+                        class="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-sky-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">
                       Reset<span class="sr-only">, {{ machine.id }}</span>
                     </RouterLink>
                     <RouterLink
