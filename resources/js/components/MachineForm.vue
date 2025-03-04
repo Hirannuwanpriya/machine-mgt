@@ -1,5 +1,5 @@
 <template>
-  <div v-if="formVisible" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
       <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
@@ -7,7 +7,7 @@
             class="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
           <form v-on:submit.prevent="saveForm">
             <div>
-              <div class="space-y-6 sm:space-y-16">
+              <div class="space-y-6">
                 <p class="text-base font-semibold text-gray-900">Add New Machine</p>
                 <div
                     class="mt-10 space-y-8 border-b border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
@@ -63,7 +63,8 @@
                   <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
                     <label for="purchase_date" class="block text-sm/6 font-medium text-gray-900 sm:pt-1.5">Date</label>
                     <div class="mt-2 sm:col-span-2 sm:mt-0">
-                      <input v-model="machine.purchase_date" type="date" name="purchase_date" id="purchase_date" autocomplete="purchase-date"
+                      <input v-model="machine.purchase_date" type="date" name="purchase_date" id="purchase_date"
+                             autocomplete="purchase-date"
                              class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:max-w-xs sm:text-sm/6"/>
                       <p class="mt-2 text-sm text-red-600" v-if="isInError('machine.date')">Date Required</p>
                     </div>
@@ -114,11 +115,15 @@ export default {
   components: {
     ChevronDownIcon
   },
+  props: {
+    machineId: {
+      type: Number,
+      required: true
+    }
+  },
   data() {
     return {
-      formVisible: false,
       isEditing: false,
-      machineId: null,
       machine: {
         name: '',
         category: '',
@@ -140,15 +145,15 @@ export default {
     }
   },
   mounted() {
-    this.formVisible = !this.formVisible;
 
     this.$nextTick(() => {
       //get route params
-      this.parentPath = this.getParentUrl(this.$route.matched, 'machine.edit', {machineId: this.$route.params.machineId});
-      //check router is edit or create
-      if(this.parentPath.name === 'machine.edit') {
+
+      //get machine data to fill the form
+      if (typeof this.machineId === 'number' && this.machineId > -1) {
+        // machineId is a valid number and greater than -1
+
         this.isEditing = true;
-        this.machineId = this.$route.params.machineId;
 
         //fetch machine data
         const machineStore = useMachineStore();
@@ -168,9 +173,7 @@ export default {
       return this.v$.$errors && this.v$.$errors.find(element => element.$propertyPath === machine)
     },
     toggleForm() {
-      this.formVisible = !this.formVisible;
-
-      this.$router.push({name: 'machines.index'});
+      this.$emit('close');
     },
     saveForm() {
       this.v$.$validate().then((valid) => {
@@ -189,7 +192,7 @@ export default {
         //call api to save machine
         const machineStore = useMachineStore();
 
-        if(this.isEditing && this.machineId) {
+        if (this.isEditing && this.machineId) {
           machineStore.updateMachine(this.machineId, formData)
               .then((response) => {
                 this.$notify({type: "success", text: "Machine Updated"});
@@ -211,15 +214,6 @@ export default {
         }
       });
     },
-    getParentUrl(route, name, id) {
-      let routeHistory = route.slice(0, -1);
-      if (Array.isArray(routeHistory)) {
-        if (routeHistory[0].name === name + '.show') {
-          return { name: `${name}.show`, params: id };
-        }
-      }
-      return { name: name };
-    }
   }
 }
 </script>
