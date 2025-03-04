@@ -26,7 +26,14 @@ const routes = [
     {
         path: '/:pathMatch(.*)*',
         name: 'NotFound',
-        component: () => import('../pages/NotFound.vue')
+        component: Layout,
+        children: [
+            {
+                path: '',
+                name: 'NotFound.index',
+                component: () => import('../pages/NotFound.vue')
+            }
+        ]
     }
 ];
 
