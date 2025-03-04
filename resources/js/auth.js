@@ -1,5 +1,6 @@
 // resources/js/stores/auth.js
 import { defineStore } from 'pinia';
+import { useRouter } from 'vue-router';
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -16,6 +17,11 @@ export const useAuthStore = defineStore('auth', {
         clearToken() {
             this.token = null;
             localStorage.removeItem('user-token');
+        },
+        logout() {
+            this.clearToken();
+            //redirect to login
+            this.router.push({ name: 'login' });
         },
     },
 });
