@@ -91,7 +91,7 @@ export default {
           // get user token and set it into authStore
           authStore.setToken(token);
           //redirect to machines list page
-          router.push({ name: 'machines' });
+          this.$router.push({ name: 'machines.index' });
         }).catch(error => {
           console.error('Login failed:', error);
         });
