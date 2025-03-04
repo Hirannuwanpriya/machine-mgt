@@ -113,16 +113,17 @@ class MachinesController extends Controller
                 'brand' => 'required|int',
             ]);
 
-            $machine = $this->machineRepository->update($validated, $id);
-
+            $update = $this->machineRepository->update($validated, $id);
+            //get updated data set
+            $machine = $this->machineRepository->find($id);
             //return updated machine as json format
             return response()->json([
                 'status' => true,
-                'payload' =>  $machine ? 'Machine updated' : 'Machine not found',
+                'payload' => $machine, //return updated machine as json format
                 'meta' => [
                     '_timestamp' => Carbon::now()->timestamp,
                 ],
-            ], $machine ? 201 : 404);
+            ], $update ? 201 : 404);
 
         }, function ($e) {
             return response()->json([
