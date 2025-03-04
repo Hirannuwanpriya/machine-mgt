@@ -1,5 +1,5 @@
 <template>
-  <div v-if="modalVisible" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
 
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -109,19 +109,15 @@ export default {
     }
   },
   mounted() {
-    this.modalVisible = !this.modalVisible;
+
 
     this.$nextTick(() => {
-      this.parentPath = this.getParentUrl(this.$route.matched, 'machine.delete', {machineId: this.$route.params.machineId});
-      this.modalVisible = true;
-      this.machineId = this.$route.params.machineId;
+
     });
   },
   methods: {
     toggleForm() {
-      this.modalVisible = !this.modalVisible;
-
-      this.$router.push({name: 'machines.index'});
+      this.$emit('close');
     },
     addTimer() {
       const machineStore = useMachineStore();
@@ -137,16 +133,6 @@ export default {
     resetTimer() {
       //do the reset timer logic here
     },
-    getParentUrl(matched, name, params) {
-      let parentPath = '';
-      for (let i = 0; i < matched.length; i++) {
-        if (matched[i].name === name) {
-          parentPath = this.$router.resolve({name: name, params: params}).href;
-          break;
-        }
-      }
-      return parentPath;
-    }
   }
 }
 </script>
