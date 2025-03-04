@@ -1,9 +1,6 @@
 import Login from '../pages/Login.vue';
 import Layout from '../components/Layout.vue';
 import Machine from '../pages/Machine.vue';
-import MachineForm from "../components/MachineForm.vue";
-import DeleteModal from "../components/DeleteModal.vue";
-import ResetTimer from "../components/ResetTimer.vue";
 
 
 const routes = [
@@ -11,9 +8,6 @@ const routes = [
     {
         path: '/',
         name: 'machines',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
         component: Layout,
         children: [
             {
