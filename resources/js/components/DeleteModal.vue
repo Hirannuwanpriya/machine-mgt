@@ -1,5 +1,5 @@
 <template>
-  <div v-if="modalVisible" class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+  <div class="relative z-10" aria-labelledby="modal-title" role="dialog" aria-modal="true">
     <div class="fixed inset-0 bg-gray-500/75 transition-opacity"></div>
 
     <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
@@ -22,11 +22,11 @@
           </div>
           <div class="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
             <button type="button"
-                    class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                    class="cursor-pointer inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
                     @click="deleteMachine">Delete
             </button>
             <button type="button"
-                    class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                    class="cursor-pointer mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
                     @click="toggleForm">Cancel
             </button>
           </div>
@@ -47,26 +47,21 @@ export default {
     ChevronDownIcon,
     ExclamationTriangleIcon
   },
-  data() {
-    return {
-      modalVisible: false,
-      machineId: null,
+
+  props: {
+    machineId: {
+      type: Number,
+      required: true
     }
   },
   mounted() {
-    this.modalVisible = !this.modalVisible;
-
     this.$nextTick(() => {
-      this.parentPath = this.getParentUrl(this.$route.matched, 'machine.delete', {machineId: this.$route.params.machineId});
-      this.modalVisible = true;
-      this.machineId = this.$route.params.machineId;
+
     });
   },
   methods: {
     toggleForm() {
-      this.modalVisible = !this.modalVisible;
-
-      this.$router.push({name: 'machines.index'});
+      this.$emit('close');
     },
     deleteMachine() {
       const machineStore = useMachineStore();
@@ -80,16 +75,6 @@ export default {
             console.error(error);
           });
     },
-    getParentUrl(matched, name, params) {
-      let parentPath = '';
-      for (let i = 0; i < matched.length; i++) {
-        if (matched[i].name === name) {
-          parentPath = this.$router.resolve({name: name, params: params}).href;
-          break;
-        }
-      }
-      return parentPath;
-    }
   }
 }
 </script>
