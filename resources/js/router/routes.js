@@ -21,26 +21,6 @@ const routes = [
                 name: 'machines.index',
                 component: Machine,
             },
-            // {
-            //     path: 'machine/create',
-            //     name: 'machine.create',
-            //     component: MachineForm
-            // },
-            {
-                path: ':machineId/edit/',
-                name: 'machine.edit',
-                component: MachineForm
-            },
-            {
-                path: ':machineId/delete/',
-                name: 'machine.delete',
-                component: DeleteModal
-            },
-            {
-                path: ':machineId/reset-timer/',
-                name: 'machine.reset_timer',
-                component: ResetTimer
-            }
         ]
     },
     {
