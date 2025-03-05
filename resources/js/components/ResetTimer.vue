@@ -143,6 +143,9 @@ export default {
       this.$emit('close');
     },
     addTimer() {
+        this.$notify({type: "error", text: "Hours must be greater than 0"});
+        return;
+      }
 
       const machineStore = useMachineStore();
       //add the timer to the machine
@@ -157,6 +160,18 @@ export default {
     },
     resetCount() {
       this.resetTimer.hours = 0;
+
+      const machineStore = useMachineStore();
+      //add the timer to the machine
+      machineStore.updateMachineHours(this.machineId, this.timer)
+          .then((response) => {
+            this.$notify({type: "success", text: "Machine Hours Updated"});
+            this.toggleForm();
+          })
+          .catch((error) => {
+            this.$notify({type: "error", text: error});
+          });
+
     },
 
   }
