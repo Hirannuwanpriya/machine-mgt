@@ -16,10 +16,10 @@
             </button>
           </div>
           <form v-on:submit.prevent="resetTimer">
-            <div class="space-y-6 sm:space-y-16">
+            <div class="space-y-6">
               <p class="text-base font-semibold text-gray-900">Reset Machine Timer</p>
               <div
-                  class="mt-10 space-y-8 border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
+                  class="space-y-8 border-gray-900/10 pb-12 sm:space-y-0 sm:divide-y sm:divide-gray-900/10 sm:border-t sm:pb-0">
                 <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
                   <label for="date" class="block text-sm/6 font-medium text-gray-900 sm:pt-1.5">Date</label>
                   <div class="mt-2 sm:col-span-2 sm:mt-0">
@@ -36,10 +36,14 @@
                   </div>
                 </div>
 
-                <div class="sm:grid sm:items-center sm:py-6">
+                <div class="flex justify-end sm:py-6 space-x-8">
                   <button type="button" @click="addTimer"
-                          class="flex w-1/4 mx-auto justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                          class="cursor-pointer w-1/4 rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                     Add
+                  </button>
+                  <button type="button" @click="resetCount"
+                          class="cursor-pointer w-1/4 rounded-md px-3 py-1.5 text-sm/6 font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                    Reset Count
                   </button>
                 </div>
               </div>
@@ -60,14 +64,14 @@
                 </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200">
-                <tr v-for="timer in timers" :key="timer.id">
+                <tr>
                   <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{
                       timer.date
                     }}
                   </td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ timer.hours }}</td>
                   <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                    <a v-if="timer.reset" href="#" class="text-indigo-600 hover:text-indigo-900">Reset
+                    <a v-if="timer.hours !== 0" href="#" class="text-indigo-600 hover:text-indigo-900">Reset
                       <span class="sr-only">{{ timer.date }}</span></a>
                   </td>
                 </tr>
@@ -93,19 +97,22 @@ export default {
   components: {
     ChevronDownIcon,
   },
+  props: {
+    machineId: {
+      type: Number,
+      required: true
+    }
+  },
   data() {
     return {
       modalVisible: false,
-      machineId: null,
       machinesDate: today,
       machinesTime: 0,
-      timers: [
-        {
-          date: useDateFormat(today, 'DD/MM/YYYY'),
-          hours: 0,
-          reset: true
-        },
-      ]
+      timer:         {
+        date: useDateFormat(today, 'DD/MM/YYYY'),
+        hours: 0,
+        reset: true
+      },
     }
   },
   mounted() {
@@ -121,14 +128,18 @@ export default {
     },
     addTimer() {
       const machineStore = useMachineStore();
+      //add the timer to the machine
+      machineStore.updateMachineHours(this.machineId, this.timer)
+          .then((response) => {
+            this.$notify({type: "success", text: "Machine Hours Updated"});
+            this.toggleForm();
+          })
+          .catch((error) => {
+            this.$notify({type: "error", text: error});
+          });
+    },
+    resetCount() {
 
-      //do the add timer logic here
-      //push to timers array
-      this.timers.push({
-        date: useDateFormat(this.machinesDate, 'DD/MM/YYYY'),
-        hours: this.machinesTime,
-        reset: false
-      });
     },
     resetTimer() {
       //do the reset timer logic here
