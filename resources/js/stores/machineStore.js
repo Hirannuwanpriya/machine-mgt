@@ -63,6 +63,22 @@ export const useMachineStore = defineStore('machine', {
                     });
             });
         },
+        //method for updating a machine hours
+        updateMachineHours(id, data) {
+            return new Promise((resolve, reject) => {
+                axios.put(`/api/v1/machines/${id}/update-hours`, data)
+                    .then(response => {
+                        //update machines store with the updated machine
+                        const index = this.machines.findIndex(machine => machine.id === id);
+                        this.machines[index] = response.data.payload;
+                        resolve(response);
+                    })
+                    .catch(error => {
+                        console.error('Error updating machine hours:', error);
+                        reject(error);
+                    });
+            });
+        },
         //method for deleting a machine
         deleteMachine(id) {
             return new Promise((resolve, reject) => {
