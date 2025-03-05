@@ -27,6 +27,7 @@
                   <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Category</th>
                   <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Brand</th>
                   <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Reset Count</th>
+                  <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Hours</th>
                   <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Price</th>
                   <th scope="col" class="whitespace-nowrap px-2 py-3.5 text-left text-sm font-semibold text-gray-900">Actions</th>
                   <th scope="col" class="relative whitespace-nowrap py-3.5 pl-3 pr-4 sm:pr-0">
@@ -38,9 +39,14 @@
                 <tr v-for="machine in machines.machines" :key="machine.id">
                   <td class="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">{{ machine.id }}</td>
                   <td class="whitespace-nowrap py-2 pl-4 pr-3 text-sm text-gray-500 sm:pl-0">{{ machine.name }}</td>
-                  <td class="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">{{ useDateFormat(machine.purchase_date, 'DD/MM/YYYY') }}</td>
+                  <td class="whitespace-nowrap px-2 py-2 text-sm font-medium text-gray-900">
+                    {{ machine.purchase_date ? useDateFormat(machine.purchase_date, 'DD/MM/YYYY') : '-' }}
+                  </td>
                   <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">{{ machine.category }}</td>
                   <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">{{ machine.brand }}</td>
+                  <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">
+                    {{ machine.timer_date ? useDateFormat(machine.timer_date, 'DD/MM/YYYY') : '-' }}
+                  </td>
                   <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-900">{{ machine.hours }}</td>
                   <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{{ machine.price }}</td>
                   <td class="relative whitespace-nowrap py-2 pl-3 pr-4 text-sm font-medium sm:pr-0 space-x-4">
