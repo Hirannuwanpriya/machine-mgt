@@ -16,5 +16,5 @@ interface MachineRepositoryInterface
 
     public function delete(int $id): bool;
 
-    public function addHours(int $id, string $date, int $hours): bool;
+    public function updateHours(array $data, int $id): bool;
 }

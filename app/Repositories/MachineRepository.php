@@ -61,16 +61,17 @@ class MachineRepository implements MachineRepositoryInterface
             ->destroy($id);
     }
 
-    public function addHours(int $id, string $date, int $hours): bool
+    public function updateHours(array $data, int $id): bool
     {
+
         return $this
             ->machine
             ->newQuery()
             ->find($id)
             ->update(
                 [
-                    'hours' => $hours,
-                    'date' => $date
+                    'hours' => $data['hours'],
+                    'date' => $data['date']
                 ]
             );
     }

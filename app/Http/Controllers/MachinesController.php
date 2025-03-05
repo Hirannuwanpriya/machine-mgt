@@ -23,7 +23,7 @@ class MachinesController extends Controller
     public function index(Request $request): JsonResponse
     {
 
-        return rescue(function() use ($request) {
+        return rescue(function () use ($request) {
             $machines = $this->machineRepository->all(paginate: true, length: $request->get('length', 10));
 
             return response()->json([
@@ -49,7 +49,7 @@ class MachinesController extends Controller
 
     public function show($id): JsonResponse
     {
-        return rescue(function() use ($id) {
+        return rescue(function () use ($id) {
             $machine = $this->machineRepository->find($id);
 
             //get machine by id and return as json format
@@ -73,8 +73,8 @@ class MachinesController extends Controller
     public function store(Request $request): JsonResponse
     {
 
-        return rescue(function() use ($request) {
-           $validated = $request->validate([
+        return rescue(function () use ($request) {
+            $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'purchase_date' => 'required',
                 'price' => 'required',
@@ -104,7 +104,7 @@ class MachinesController extends Controller
     public function update(Request $request, $id): JsonResponse
     {
 
-        return rescue(function() use ($request, $id) {
+        return rescue(function () use ($request, $id) {
             $validated = $request->validate([
                 'name' => 'required|string|max:255',
                 'purchase_date' => 'required',
@@ -135,7 +135,7 @@ class MachinesController extends Controller
 
     public function destroy($id): JsonResponse
     {
-        return rescue(function() use ($id){
+        return rescue(function () use ($id) {
             $machine = $this->machineRepository->delete($id);
 
             //get machine by id and return as json format
@@ -156,21 +156,28 @@ class MachinesController extends Controller
         });
     }
 
-    public function addHours($id, $data): JsonResponse
+    public function updateHours(Request $request, $id): JsonResponse
     {
 
-        return rescue(function () use($id, $data) {
+        return rescue(function () use ($request, $id) {
 
-            $machine = $this->machineRepository->addHours($id, $data);
+            $validated = $request->validate([
+                'date' => 'required|date',
+                'hours' => 'required|int',
+            ]);
+
+            $update = $this->machineRepository->updateHours($validated, $id);
+            //get updated data set
+            $machine = $this->machineRepository->find($id);
 
             //return updated machine as json format
             return response()->json([
                 'status' => true,
-                'payload' => $machine,
+                'payload' => $machine, //return updated machine as json format
                 'meta' => [
                     '_timestamp' => Carbon::now()->timestamp,
                 ],
-            ], 200);
+            ], $update ? 201 : 404);
 
         }, function ($e) {
             return response()->json([
