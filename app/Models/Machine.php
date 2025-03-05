@@ -18,6 +18,7 @@ class Machine extends Model
         'price',
         'category',
         'brand',
+        'timer_date',
         'hours',
         'status',
         'sort_order'
@@ -25,6 +26,7 @@ class Machine extends Model
 
     protected $casts = [
         'purchase_date' => 'datetime',
+        'timer_date' => 'datetime',
         'price' => 'decimal:2',
         'category' => Category::class,
         'brand' => Brand::class
