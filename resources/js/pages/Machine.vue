@@ -51,7 +51,7 @@
                   <td class="whitespace-nowrap px-2 py-2 text-sm text-gray-500">{{ machine.price }}</td>
                   <td class="relative whitespace-nowrap py-2 pl-3 pr-4 text-sm font-medium sm:pr-0 space-x-4">
                     <button
-                        @click.prevent="openResetTimer(machine.id)"
+                        @click.prevent="openResetTimer(machine.id, machine.hours, machine.timer_date)"
                         class="inline-flex items-center rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-sky-700 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-white">
                       Reset<span class="sr-only">, {{ machine.id }}</span>
                     </button>
@@ -77,7 +77,7 @@
   </main>
 
   <teleport to="body">
-    <ResetTimer v-if="showResetTimer"  :machineId="selectedMachineId"
+    <ResetTimer v-if="showResetTimer"  :machineId="selectedMachineId" :resetTimer="timer"
                 @close="showResetTimer = false"/>
 
     <MachineForm v-if="showMachineForm"  :machineId="selectedMachineId"
@@ -122,13 +122,19 @@ export default {
       showResetTimer: false,
       showMachineForm: false,
       showDeleteModal: false,
-      selectedMachineId: null
+      selectedMachineId: null,
+      timer: {
+        timer_date: '',
+        hours: 0,
+      }
     }
   },
   methods: {
-    openResetTimer(machineId) {
+    openResetTimer(machineId, hours, timer_date) {
       this.selectedMachineId = machineId;
       this.showResetTimer = true;
+      this.timer.timer_date = timer_date;
+      this.timer.hours = hours;
     },
     openMachineForm(machineId) {
       this.selectedMachineId = machineId;

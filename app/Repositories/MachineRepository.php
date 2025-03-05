@@ -71,7 +71,7 @@ class MachineRepository implements MachineRepositoryInterface
             ->update(
                 [
                     'hours' => $data['hours'],
-                    'date' => $data['date']
+                    'timer_date' => $data['timer_date']
                 ]
             );
     }

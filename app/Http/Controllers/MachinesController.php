@@ -162,7 +162,7 @@ class MachinesController extends Controller
         return rescue(function () use ($request, $id) {
 
             $validated = $request->validate([
-                'date' => 'required|date',
+                'timer_date' => 'required|date',
                 'hours' => 'required|int',
             ]);
 
