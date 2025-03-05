@@ -23,7 +23,7 @@
                 <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
                   <label for="date" class="block text-sm/6 font-medium text-gray-900 sm:pt-1.5">Date</label>
                   <div class="mt-2 sm:col-span-2 sm:mt-0">
-                    <input v-model="machinesDate" type="date" name="date" id="date" autocomplete="date"
+                    <input v-model="timer.date" type="date" name="date" id="date" autocomplete="date"
                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:max-w-xs sm:text-sm/6"/>
                   </div>
                 </div>
@@ -31,7 +31,7 @@
                 <div class="sm:grid sm:grid-cols-3 sm:items-start sm:gap-4 sm:py-6">
                   <label for="hours" class="block text-sm/6 font-medium text-gray-900 sm:pt-1.5">Hours</label>
                   <div class="mt-2 sm:col-span-2 sm:mt-0">
-                    <input v-model="machinesTime"  type="text" name="hours" id="hours" autocomplete="hours"
+                    <input v-model="timer.hours"  type="text" name="hours" id="hours" autocomplete="hours"
                            class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:max-w-xs sm:text-sm/6"/>
                   </div>
                 </div>
@@ -65,9 +65,8 @@
                 </thead>
                 <tbody class="divide-y divide-gray-200">
                 <tr>
-                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{
-                      timer.date
-                    }}
+                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
+                    {{ useDateFormat(timer.date, 'DD/MM/YYYY') }}
                   </td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ timer.hours }}</td>
                   <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
@@ -94,6 +93,11 @@ const today = new Date();
 
 export default {
   name: 'ResetTimer',
+  setup() {
+    return {
+      useDateFormat
+    }
+  },
   components: {
     ChevronDownIcon,
   },
@@ -109,7 +113,7 @@ export default {
       machinesDate: today,
       machinesTime: 0,
       timer:         {
-        date: useDateFormat(today, 'DD/MM/YYYY'),
+        date: today,
         hours: 0,
         reset: true
       },
