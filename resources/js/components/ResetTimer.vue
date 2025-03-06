@@ -186,8 +186,9 @@ export default {
               hours: response.data.payload.hours
             }
 
+            this.resetTimer.hours = this.timer.hours;
+
             this.$notify({type: "success", text: "Machine Hours Updated"});
-            this.toggleForm();
           })
           .catch((error) => {
             this.$notify({type: "error", text: error});
