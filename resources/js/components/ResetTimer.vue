@@ -136,6 +136,7 @@ export default {
 
     this.$nextTick(() => {
       this.timer.timer_date = today.value;
+      this.timer.hours = this.resetTimer.hours;
     });
   },
   methods: {
@@ -144,11 +145,6 @@ export default {
     },
     addTimer() {
 
-      //check if the hours is a number
-      if(isNaN(this.timer.hours)) {
-        this.$notify({type: "error", text: "Hours must be a number"});
-        return;
-      }
       //check if the hours is greater than 0
       if (this.timer.hours <= 0) {
         this.$notify({type: "error", text: "Hours must be greater than 0"});
@@ -156,7 +152,10 @@ export default {
       }
 
       //adding the new timer to the machine timer
-      if (this.resetTimer.hours >= 0 && this.timer.hours >= 0) {
+      if (this.timer.hours > 0) {
+          if(this.checkDuplicates() === -1) {
+            return;
+          }
       } else {
         this.$notify({ type: "error", text: "Hours must be integers and not less than 0" });
         return;
@@ -177,12 +176,16 @@ export default {
           });
     },
     resetCount() {
-      this.resetTimer.hours = 0;
+      this.timer.hours = 0;
 
       const machineStore = useMachineStore();
       //add the timer to the machine
       machineStore.updateMachineHours(this.machineId, this.timer)
           .then((response) => {
+            this.timer = {
+              hours: response.data.payload.hours
+            }
+
             this.$notify({type: "success", text: "Machine Hours Updated"});
             this.toggleForm();
           })
