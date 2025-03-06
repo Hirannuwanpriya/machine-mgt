@@ -157,7 +157,7 @@ export default {
             return;
           }
       } else {
-        this.$notify({ type: "error", text: "Hours must be integers and not less than 0" });
+          this.$notify({ type: "error", text: "Hours must be integers and not less than 0" });
         return;
       }
 
@@ -194,7 +194,20 @@ export default {
           });
 
     },
+    checkDuplicates() {
+      //parse the hours to integers
+      let new_hours = parseInt(this.timer.hours);
+      let timer_hours = parseInt(this.resetTimer.hours);
 
+      //check new hours is equal to the current hours in same day
+      if((this.resetTimer.timer_date === this.timer.timer_date) && (new_hours === timer_hours)) {
+        this.$notify({type: "error", text: "This timer already exists"});
+        return -1;
+      } else {
+        this.timer.hours = timer_hours + new_hours;
+        return 1;
+      }
+    }
   }
 }
 </script>
