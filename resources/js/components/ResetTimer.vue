@@ -70,11 +70,11 @@
                 <tbody class="divide-y divide-gray-200">
                 <tr>
                   <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">
-                    {{ useDateFormat(resetTimer.timer_date, 'DD/MM/YYYY') }}
+                    {{ resetTimer.timer_date ? useDateFormat(resetTimer.timer_date, 'DD/MM/YYYY') : '-' }}
                   </td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ resetTimer.hours }}</td>
                   <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
-                    <a v-if="resetTimer.hours !== 0" href="#" class="text-indigo-600 hover:text-indigo-900">Reset</a>
+                    <button v-if="resetTimer.hours !== 0" @click="resetCount" class="cursor-pointer  text-indigo-600 hover:text-indigo-900">Reset</button>
                   </td>
                 </tr>
                 </tbody>
@@ -143,7 +143,22 @@ export default {
       this.$emit('close');
     },
     addTimer() {
+
+      //check if the hours is a number
+      if(isNaN(this.timer.hours)) {
+        this.$notify({type: "error", text: "Hours must be a number"});
+        return;
+      }
+      //check if the hours is greater than 0
+      if (this.timer.hours <= 0) {
         this.$notify({type: "error", text: "Hours must be greater than 0"});
+        return;
+      }
+
+      //adding the new timer to the machine timer
+      if (this.resetTimer.hours >= 0 && this.timer.hours >= 0) {
+      } else {
+        this.$notify({ type: "error", text: "Hours must be integers and not less than 0" });
         return;
       }
 
@@ -151,8 +166,11 @@ export default {
       //add the timer to the machine
       machineStore.updateMachineHours(this.machineId, this.timer)
           .then((response) => {
+            //update resetTimer with new values
+            this.resetTimer.hours = this.timer.hours;
+            this.resetTimer.timer_date = this.timer.timer_date;
+
             this.$notify({type: "success", text: "Machine Hours Updated"});
-            this.toggleForm();
           })
           .catch((error) => {
             this.$notify({type: "error", text: error});

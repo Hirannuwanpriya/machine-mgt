@@ -45,8 +45,8 @@ export default {
   name: "Login",
   data() {
     return {
-      email: "",
-      password: "",
+      email: "test@example.com",
+      password: "password",
       errors: {
         email: "",
         password: ""
