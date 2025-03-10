@@ -66,7 +66,7 @@ class MachinesController extends Controller
             return response()->json([
                 'message' => $e->getMessage(),
                 'stack' => $e->getTraceAsString(),
-            ], 402);
+            ], 400);
         });
     }
 
@@ -97,7 +97,7 @@ class MachinesController extends Controller
             return response()->json([
                 'message' => $e->getMessage(),
                 'stack' => $e->getTraceAsString(),
-            ], 402);
+            ], 400);
         });
     }
 
@@ -129,7 +129,7 @@ class MachinesController extends Controller
             return response()->json([
                 'message' => $e->getMessage(),
                 'stack' => $e->getTraceAsString(),
-            ], 402);
+            ], 400);
         });
     }
 
@@ -152,7 +152,7 @@ class MachinesController extends Controller
             return response()->json([
                 'message' => $e->getMessage(),
                 'stack' => $e->getTraceAsString(),
-            ], 402);
+            ], 400);
         });
     }
 
@@ -183,7 +183,7 @@ class MachinesController extends Controller
             return response()->json([
                 'message' => $e->getMessage(),
                 'stack' => $e->getTraceAsString(),
-            ], 402);
+            ], 400);
         });
     }
 }

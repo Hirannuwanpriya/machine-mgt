@@ -55,7 +55,7 @@ class AuthController extends Controller
                 'meta' => [
                     '_time' => now()->timestamp
                 ]
-            ]);
+            ], 400);
         });
     }
 
@@ -71,7 +71,7 @@ class AuthController extends Controller
                 'meta' => [
                     '_time' => now()->timestamp
                 ]
-            ]);
+            ], 400);
         });
     }
 }
